@@ -1,4 +1,3 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -8,7 +7,6 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/utils/mobile/hooks/useColorScheme';
 import {useFonts} from "@/utils/hooks/useFonts";
 import {AuthProvider} from "@/utils/context/authProvider";
-import {useAuth} from "@/utils/hooks/useAuth";
 // Catch any errors thrown by the Layout component.
 export { ErrorBoundary } from 'expo-router';
 

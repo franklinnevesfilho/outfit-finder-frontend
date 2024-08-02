@@ -1,6 +1,6 @@
 import React from 'react';
-import {Screen, Button, Text} from '@/components'
-import {Link, useRouter} from "expo-router";
+import {Screen, Button} from '@/components'
+import {useRouter} from "expo-router";
 import {StyleSheet} from "react-native";
 
 export default function Login() {
