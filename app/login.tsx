@@ -8,7 +8,11 @@ export default function Login() {
 
     return (
         <Screen>
-            <Button style={styles.login} title={'Login'} />
+            <Button
+                onPress={()=>{
+                    router.replace("/(tabs)")
+                }}
+                style={styles.login} title={'Login'} />
         </Screen>
     );
 }

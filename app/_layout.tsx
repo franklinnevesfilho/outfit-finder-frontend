@@ -7,6 +7,8 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/utils/mobile/hooks/useColorScheme';
 import {useFonts} from "@/utils/hooks/useFonts";
+import {AuthProvider} from "@/utils/context/authProvider";
+import {useAuth} from "@/utils/hooks/useAuth";
 // Catch any errors thrown by the Layout component.
 export { ErrorBoundary } from 'expo-router';
 
@@ -43,21 +45,26 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen
-            name={'index'}
-            options={{
-              title: 'Welcome Screen',
-              headerShown: false
-            }}
-        />
-        <Stack.Screen name="(tabs)"
+      <AuthProvider>
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+              <AuthProvider>
+
+              </AuthProvider>
+              <Stack>
+                  <Stack.Screen
+                      name={'index'}
                       options={{
-                        headerShown: false,
-                        animation: 'slide_from_right'
-        }} />
-      </Stack>
-    </ThemeProvider>
+                          title: 'Welcome Screen',
+                          headerShown: false
+                      }}
+                  />
+                  <Stack.Screen name="(tabs)"
+                                options={{
+                                    headerShown: false,
+                                    animation: 'slide_from_right'
+                                }} />
+              </Stack>
+          </ThemeProvider>
+      </AuthProvider>
   );
 }
