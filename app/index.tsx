@@ -40,12 +40,11 @@ export default function Index() {
 
 const styles = StyleSheet.create({
     footer:{
-        height:'10%',
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column',
         alignItems: 'center',
-        marginTop: 'auto',
-        gap:20
+        width: '100%',
+        marginBottom: 50
     },
     registerButton:{
         minHeight: 50,
@@ -63,10 +62,10 @@ const styles = StyleSheet.create({
         color: '#0075ff'
     },
     title:{
-        marginTop: 'auto',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        marginVertical: 'auto'
     }
 })
 
