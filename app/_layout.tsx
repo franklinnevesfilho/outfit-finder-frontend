@@ -45,20 +45,20 @@ function RootLayoutNav() {
   return (
       <AuthProvider>
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-              <AuthProvider>
-
-              </AuthProvider>
-              <Stack>
+              <Stack
+                    initialRouteName="index"
+                    screenOptions={{
+                        headerShown: false,
+                    }}
+              >
                   <Stack.Screen
                       name={'index'}
                       options={{
                           title: 'Welcome Screen',
-                          headerShown: false
                       }}
                   />
                   <Stack.Screen name="(tabs)"
                                 options={{
-                                    headerShown: false,
                                     animation: 'slide_from_right'
                                 }} />
               </Stack>

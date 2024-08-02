@@ -1,14 +1,15 @@
 import {View} from "./themedComponents";
 import React from "react";
-import {StyleSheet} from "react-native";
+import {StyleSheet, useWindowDimensions} from "react-native";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 type ScreenProps = React.ComponentProps<typeof View>
 
 export function Screen({style, ...props}: ScreenProps) {
-
+    const insets = useSafeAreaInsets()
 
     return (
-        <View style={[styles.screen, style]} {...props}/>
+        <View style={[styles.screen,{paddingTop: insets.top, paddingBottom: insets.bottom}, style]} {...props}/>
     )
 }
 

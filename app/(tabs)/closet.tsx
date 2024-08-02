@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { View } from '@/components/themedComponents';
 import {Text} from 'react-native'
 
-export default function TabTwoScreen() {
+export default function ClosetScreen() {
   return (
     <View style={styles.container}>
       <Text>Hello</Text>

@@ -6,54 +6,55 @@ import { Pressable } from 'react-native';
 import Colors from '@/utils/constants/Colors';
 import { useColorScheme } from '@/utils/mobile/hooks/useColorScheme';
 import { useClientOnlyValue } from '@/utils/mobile/hooks/useClientOnlyValue';
+import {ThemedIcon} from "@/components/themedComponents/ThemedIcon";
+import {IconName} from "@/utils/types/IconName";
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+type tab = {
+    name: string;
+    title: string;
+    icon?: IconName;
+    options?: any;
 }
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  const tabs: tab[] = [
+      {
+          name: 'index',
+          title: 'Home',
+          icon: 'home',
+      },
+      {
+          name: 'closet',
+          title: 'Closet',
+      },
+      {
+          name: 'settings',
+          title: 'Settings',
+      }
+  ];
+
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
       }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'one',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
+        {
+            tabs.map((tab, index) => (
+                <Tabs.Screen
+                    key={index}
+                    name={tab.name}
+                    options={{
+                        title: tab.title,
+                        tabBarIcon: ({ color }) => (
+                            <ThemedIcon name={tab.icon} color={color} size={24} />
+                        ),
+                    }}
+                />
+            ))
+        }
     </Tabs>
   );
 }

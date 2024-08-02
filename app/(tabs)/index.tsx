@@ -1,14 +1,18 @@
 import { StyleSheet } from 'react-native';
-import {Screen, Text} from "@/components";
-import {Link} from "expo-router";
+import {Button, Screen, Text} from "@/components";
+import {Link, useRouter} from "expo-router";
 
 export default function TabOneScreen() {
+    const router = useRouter()
   return (
     <Screen>
       <Text>Testing</Text>
-      <Link href={'/'}>
-        <Text>Log out</Text>
-      </Link>
+        <Button
+            onPress={()=>{
+                router.replace('/')
+            }}
+            title={'Go to Login'}
+        />
     </Screen>
   );
 }
