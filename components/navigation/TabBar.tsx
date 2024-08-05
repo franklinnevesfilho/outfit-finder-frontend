@@ -48,10 +48,11 @@ export function TabBar() {
     const AddButton = () => {
         return (
             <Button
-                style={styles.tabButton}
+                style={styles.addButton}
             >
                 <Icon
                     name={'add'}
+                    size={40}
                 />
             </Button>
         )
@@ -69,7 +70,9 @@ export function TabBar() {
                         }}
                         active={active == tab.name}  key={index}/>
                 ))}
-                <AddButton/>
+                <View style={styles.addButtonContainer}>
+                    <AddButton/>
+                </View>
                 {tabs.slice(tabs.length/2).map((tab, index) => (
                     <TabBarButton
                         tab={tab}
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         width: '100%',
     },
     tabButton: {
@@ -108,6 +111,23 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: 'transparent',
         borderWidth: 0,
+    },
+    addButton: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 50,
+        backgroundColor: 'transparent',
+        borderRadius: 25,
+    },
+    addButtonContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '25%',
+        paddingBottom: 10,
     }
 })
 
