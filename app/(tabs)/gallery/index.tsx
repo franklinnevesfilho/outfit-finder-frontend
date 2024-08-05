@@ -1,12 +1,12 @@
 import React from 'react';
 import {Screen, Text} from "@/components";
 
-function Gallery() {
+function Index() {
     return (
-        <Screen>
+        <Screen title={'Index'}>
             <Text>Gallery</Text>
         </Screen>
     );
 }
 
-export default Gallery;
+export default Index;

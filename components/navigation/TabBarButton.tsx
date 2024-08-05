@@ -9,7 +9,7 @@ interface TabBarButtonProps extends ThemedButtonProps{
     handlePress: (tab: Tab) => void;
 }
 
-function TabBarButton({tab, active, handlePress, ...props}: TabBarButtonProps) {
+export function TabBarButton({tab, active, handlePress, ...props}: TabBarButtonProps) {
     const [size, setSize] = React.useState<number>(25);
 
     return (
@@ -20,6 +20,7 @@ function TabBarButton({tab, active, handlePress, ...props}: TabBarButtonProps) {
             onPressOut={() => setSize(25)}
         >
             <Icon
+                type={active? tab.activeIconType : tab.inactiveIconType}
                 name={active? tab.activeIcon : tab.inactiveIcon}
                 size={size}
             />
@@ -27,4 +28,3 @@ function TabBarButton({tab, active, handlePress, ...props}: TabBarButtonProps) {
     );
 }
 
-export default TabBarButton;

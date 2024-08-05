@@ -1,13 +1,11 @@
 import {StyleSheet} from 'react-native'
 import {View, Text, Button} from './themedComponents'
-import {useNavigation, useRouter} from "expo-router";
-import {ThemedIcon} from "@/components/themedComponents/ThemedIcon";
-import {useThemeColor} from "@/utils/mobile/hooks/useThemeColor";
+import {useNavigation} from "expo-router";
+import {Icon} from "@/components/themedComponents/Icon";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 export function IntroHeader() {
     const insets = useSafeAreaInsets()
-    const textColor = useThemeColor({}, 'text')
     const navigator = useNavigation()
 
     return (
@@ -15,7 +13,7 @@ export function IntroHeader() {
             {
                 navigator.canGoBack() &&
                 <Button style={styles.backBtn} onPress={() => navigator.goBack()}>
-                    <ThemedIcon name={'keyboard-arrow-left'} color={textColor} size={55}/>
+                    <Icon name={'keyboard-arrow-left'} size={55}/>
                 </Button>
 
             }

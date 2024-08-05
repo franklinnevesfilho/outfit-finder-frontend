@@ -4,18 +4,13 @@ import * as SplashScreen from 'expo-splash-screen';
 import {useCallback, useEffect} from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/utils/mobile/hooks/useColorScheme';
+import { useColorScheme } from '@/utils/hooks/mobile/useColorScheme';
 import {useFonts} from "@/utils/hooks/useFonts";
 import {AuthProvider} from "@/utils/context/authProvider";
 import {useAuth} from "@/utils/hooks";
 // Catch any errors thrown by the Layout component.
 export { ErrorBoundary } from 'expo-router';
 export {useAuth} from "@/utils/hooks";
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -56,7 +51,7 @@ function RootLayoutNav() {
         token().then(token => {
             if (token) {
                 console.log('Token:', token);
-                router.navigate('/(tabs)');
+                router.navigate('/profile');
             } else {
                 console.log('No token found');
                 router.navigate('/');
@@ -66,7 +61,7 @@ function RootLayoutNav() {
 
 
     useEffect(() => {
-        onAuth().then(r => console.log('Auth check complete'));
+        onAuth().then(() => console.log('Auth check complete'));
     }, [onAuth]);
 
 

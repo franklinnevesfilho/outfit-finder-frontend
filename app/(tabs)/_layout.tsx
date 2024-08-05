@@ -2,10 +2,9 @@ import React from 'react';
 import {Tabs, useRouter} from 'expo-router';
 
 import Colors from '@/utils/constants/Colors';
-import { useColorScheme } from '@/utils/mobile/hooks/useColorScheme';
-import { useClientOnlyValue } from '@/utils/mobile/hooks/useClientOnlyValue';
+import { useColorScheme } from '@/utils/hooks/mobile/useColorScheme';
 import {useAuth} from "@/app/_layout";
-import {TabBar} from "@/components/navigation/TabBar";
+import {MainTabBar} from "@/components/navigation/MainTabBar";
 
 
 export default function TabLayout() {
@@ -17,7 +16,7 @@ export default function TabLayout() {
     token().then(token => {
       if (token) {
         console.log('Token:', token);
-        router.navigate('/(tabs)');
+        router.navigate('/profile');
       } else {
         router.navigate('/login');
       }
@@ -25,16 +24,17 @@ export default function TabLayout() {
   }, [])
 
     React.useEffect(() => {
-        onAuth().then(() => console.log('Auth check complete'));
+        onAuth().then(() => console.log('Auth check complete tabs'));
     },[])
 
   return (
     <Tabs
-      screenOptions={{
+        initialRouteName={'/home'}
+        screenOptions={{
           tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-          headerShown: useClientOnlyValue(false, true),
-      }}
-      tabBar={() => <TabBar />}
+          headerShown: false,
+        }}
+        tabBar={() => <MainTabBar />}
     />
   );
 }

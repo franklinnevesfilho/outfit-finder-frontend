@@ -1,18 +1,33 @@
 import React from 'react';
 import { TextStyle } from 'react-native';
 import { FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import {IconName} from "@/utils/types/IconName";
-import {useThemeColor} from "@/utils/mobile/hooks/useThemeColor";
+import {useThemeColor} from "@/utils/hooks/mobile/useThemeColor";
 import {Theme} from "@/utils/types/Theme";
+
+const iconTypes = {
+    FontAwesome: FontAwesome,
+    Ionicons: Ionicons,
+    MaterialCommunityIcons: MaterialCommunityIcons,
+    MaterialIcons: MaterialIcons
+}
+
+export type IconTypes = keyof typeof iconTypes;
+
+export type IconName =
+    | keyof typeof FontAwesome.glyphMap
+    | keyof typeof Ionicons.glyphMap
+    | keyof typeof MaterialCommunityIcons.glyphMap
+    | keyof typeof MaterialIcons.glyphMap;
 
 type ThemedIconProps = {
     name?: IconName;
+    type?: IconTypes;
     size?: number;
     color?: Theme;
     style?: TextStyle;
 };
 
-export function ThemedIcon({ name, size = 24, color ={light:'black', dark:'white'}, style }: ThemedIconProps) {
+export function Icon({ name, size = 24, color ={light:'black', dark:'white'}, style, type}: ThemedIconProps) {
     const iconColor = useThemeColor( color, 'text');
 
     const getIconComponent = (iconName: IconName) => {
@@ -23,7 +38,16 @@ export function ThemedIcon({ name, size = 24, color ={light:'black', dark:'white
         return MaterialCommunityIcons;
     }
 
-    if(name){
+    if(name && type){
+        const IconComponent = iconTypes[type]
+
+        if(IconComponent === MaterialCommunityIcons){
+            size += 5
+        }
+
+        return <IconComponent name={name as any} size={size} color={iconColor} style={style}/>
+    }
+    else if(name){
         const IconComponent = getIconComponent(name)
         return <IconComponent name={name as any} size={size} color={iconColor} style={style}/>
     }else{

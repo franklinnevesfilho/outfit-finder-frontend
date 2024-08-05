@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet, TextInput, TextInputProps} from 'react-native'
-import { View, Text } from '@/components'
-import {useThemeColor} from "@/utils/mobile/hooks/useThemeColor";
+import { View} from '@/components'
+import {useThemeColor} from "@/utils/hooks/mobile/useThemeColor";
 
 interface ThemedInputProps extends TextInputProps{
     placeholder?: string

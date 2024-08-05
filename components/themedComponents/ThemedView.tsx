@@ -1,5 +1,5 @@
 import {View as DefaultView} from 'react-native'
-import {useThemeColor} from "@/utils/mobile/hooks/useThemeColor";
+import {useThemeColor} from "@/utils/hooks/mobile/useThemeColor";
 import React from "react";
 import {Theme} from "@/utils/types/Theme";
 

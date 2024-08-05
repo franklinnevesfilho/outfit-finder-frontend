@@ -3,46 +3,46 @@ import {View, Icon, Button} from "@/components";
 import {Tab} from "@/utils/types/Tab";
 import {StyleSheet} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {useRouter} from "expo-router";
-import TabBarButton from "@/components/navigation/TabBarButton";
+import { useRouter} from "expo-router";
+import {TabBarButton} from "./TabBarButton";
+import {useThemeColor} from "@/utils/hooks/mobile/useThemeColor";
 
 
-export function TabBar() {
+export function MainTabBar() {
     const tabs: Tab[] = [
         {
-            name: '/(tabs)',
-            title: 'Home',
-            activeIcon: 'home',
-            inactiveIcon: 'home-outline',
-        },
-        {
-            // for some reason giving error but it works
-            //@ts-ignore
-            name: '/outfits',
+            path: '/outfits',
             title: 'Outfits',
             activeIcon: 'shirt',
             inactiveIcon: 'shirt-outline',
         },
         {
-            name: '/gallery',
+            path: '/gallery',
             title: 'Gallery',
             activeIcon: 'layers',
             inactiveIcon: 'layers-outline',
         },
         {
-            name: '/marketplace',
+            path: '/marketplace',
             title: 'Market',
             activeIcon: 'storefront',
             inactiveIcon: 'storefront-outline',
-        }
+        },
+        {
+            path: '/profile',
+            title: 'Profile',
+            activeIcon: 'account',
+            inactiveIcon: 'account-outline',
+        },
     ];
-    const [active, setActive] = React.useState<string | null>(tabs[0].name.toString());
-    const insets = useSafeAreaInsets()
     const router = useRouter()
+    const [active, setActive] = React.useState<string | null>(tabs[tabs.length-1].title);
+    const {bottom} = useSafeAreaInsets()
+    const backgroundColor = useThemeColor({}, 'background')
 
     const handlePress = (tab: Tab) => {
-        setActive(tab.name.toString())
-        router.push(tab.name)
+        setActive(tab.title)
+        router.navigate(tab.path)
     }
 
     const AddButton = () => {
@@ -58,29 +58,30 @@ export function TabBar() {
         )
     }
 
+    const TabButton = ({tab}: {tab: Tab}) => {
+        return (
+            <TabBarButton
+                tab={tab}
+                style={styles.tabButton}
+                handlePress={()=>{
+                    handlePress(tab)
+                }}
+                active={active == tab.title}
+            />
+        )
+    }
+
     return (
-        <View style={[styles.tabBar, {bottom:insets.bottom}]}>
+        <View style={[styles.tabBar, {paddingBottom:bottom, backgroundColor}]}>
             <View style={styles.tabsContainer}>
                 {tabs.slice(0,tabs.length/2).map((tab, index) => (
-                    <TabBarButton
-                        tab={tab}
-                        style={styles.tabButton}
-                        handlePress={()=>{
-                            handlePress(tab)
-                        }}
-                        active={active == tab.name}  key={index}/>
+                   <TabButton tab={tab} key={index}/>
                 ))}
                 <View style={styles.addButtonContainer}>
                     <AddButton/>
                 </View>
                 {tabs.slice(tabs.length/2).map((tab, index) => (
-                    <TabBarButton
-                        tab={tab}
-                        style={styles.tabButton}
-                        handlePress={()=>{
-                            handlePress(tab)
-                        }}
-                        active={active == tab.name}  key={index}/>
+                    <TabButton tab={tab} key={index}/>
                 ))}
             </View>
         </View>
@@ -94,6 +95,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
+        height: 70,
     },
     tabsContainer: {
         display: 'flex',

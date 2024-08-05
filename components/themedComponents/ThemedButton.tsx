@@ -6,65 +6,71 @@ import {
     TouchableWithoutFeedbackProps,
     TouchableHighlightProps,
     TouchableOpacityProps,
-    View, Text, StyleSheet
+    View, Text, StyleSheet, StyleProp, ViewStyle
 } from "react-native";
 import { Theme } from "@/utils/types/Theme";
-import { useThemeColor } from "@/utils/mobile/hooks/useThemeColor";
+import { useThemeColor } from "@/utils/hooks/mobile/useThemeColor";
 
 type ThemeButtonProps = Theme & TouchableWithoutFeedbackProps & TouchableHighlightProps & TouchableOpacityProps;
-type Feedback = 'none' | 'highlight' | 'opacity'
+type Feedback = 'none' | 'highlight' | 'opacity';
 
-const ButtonContainer = ({feedback, backgroundColor, style, ...props}:
-                             ThemeButtonProps & {feedback: Feedback, backgroundColor: string}) =>{
-        switch (feedback){
-            case "highlight":
-                return (
-                    <TouchableHighlight style={{
-                        borderRadius: 5,
-                        overflow: 'hidden'
-                    }} {...props}>
-                        <View style={[styles.defaultButton,{backgroundColor}, style]}>
-                            {props.children}
-                        </View>
-                    </TouchableHighlight>)
-            case "opacity":
-                return (
-                    <TouchableOpacity style={[styles.defaultButton, {backgroundColor}, style]} {...props}>
+const ButtonContainer = ({ feedback, backgroundColor, style, defaultStyle, ...props }:
+                             ThemeButtonProps & { feedback: Feedback, backgroundColor: string, defaultStyle?: boolean }) => {
+
+    const combinedStyle: StyleProp<ViewStyle> =
+        defaultStyle ? [styles.defaultButton, { backgroundColor }, style] :
+            style
+
+    switch (feedback) {
+        case "highlight":
+            return (
+                <TouchableHighlight style={styles.touchableStyle} {...props}>
+                    <View style={combinedStyle}>
                         {props.children}
-                    </TouchableOpacity>)
-            default:
-                return (
-                    <TouchableWithoutFeedback {...props}>
-                        <View style={[styles.defaultButton,{backgroundColor}, style]}>
-                            {props.children}
-                        </View>
-                    </TouchableWithoutFeedback>)
-        }
-}
+                    </View>
+                </TouchableHighlight>
+            );
+        case "opacity":
+            return (
+                <TouchableOpacity style={combinedStyle} {...props}>
+                    {props.children}
+                </TouchableOpacity>
+            );
+        default:
+            return (
+                <TouchableWithoutFeedback {...props}>
+                    <View style={combinedStyle}>
+                        {props.children}
+                    </View>
+                </TouchableWithoutFeedback>
+            );
+    }
+};
 
-interface ButtonTitleProps{
+interface ButtonTitleProps {
     title?: string;
     style?: React.ComponentProps<typeof Text>['style'];
-    color?: string
+    color?: string;
 }
 
-const ButtonTitle = ({title, style, color}:ButtonTitleProps) => (
+const ButtonTitle = ({ title, style, color }: ButtonTitleProps) => (
     title ? (
-        <Text style={[{color}, style]}>{title}</Text>
-    ): null
-)
+        <Text style={[{ color }, style]}>{title}</Text>
+    ) : null
+);
 
-export interface ThemedButtonProps extends ThemeButtonProps{
-    feedback?: Feedback,
-    textStyle?: React.ComponentProps<typeof Text>['style'],
-    titleTheme?: Theme,
-    buttonTheme?: Theme,
-    title?: string
+export interface ThemedButtonProps extends ThemeButtonProps {
+    feedback?: Feedback;
+    textStyle?: React.ComponentProps<typeof Text>['style'];
+    titleTheme?: Theme;
+    buttonTheme?: Theme;
+    title?: string;
+    defaultStyle?: boolean;
 }
 
 // Main Button Component
-export function Button({feedback = 'none', style, dark, light, titleTheme,
-                           title, children, textStyle, ...props}: ThemedButtonProps){
+export function Button({ feedback = 'none', style, dark, light, titleTheme,
+                           title, children, textStyle, defaultStyle=true, ...props }: ThemedButtonProps) {
     const buttonBackground = useThemeColor({ dark, light }, 'button');
     const buttonTitleColor = useThemeColor(titleTheme ? titleTheme : {}, 'buttonText');
 
@@ -73,6 +79,7 @@ export function Button({feedback = 'none', style, dark, light, titleTheme,
             feedback={feedback}
             style={style}
             backgroundColor={buttonBackground}
+            defaultStyle={defaultStyle}
             {...props}
         >
             <ButtonTitle title={title} style={textStyle} color={buttonTitleColor} />
@@ -82,10 +89,14 @@ export function Button({feedback = 'none', style, dark, light, titleTheme,
 }
 
 const styles = StyleSheet.create({
-    defaultButton:{
+    defaultButton: {
         padding: 3,
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#AEAEAE'
+    },
+    touchableStyle: {
+        borderRadius: 5,
+        overflow: 'hidden'
     }
-})
+});

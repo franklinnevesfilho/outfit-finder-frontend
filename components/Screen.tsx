@@ -1,13 +1,22 @@
 import {View} from "./themedComponents";
-import React from "react";
+import React, {useEffect} from "react";
 import {StyleSheet} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {useNavigation} from "expo-router";
 
-type ScreenProps = React.ComponentProps<typeof View>
+type ScreenProps = React.ComponentProps<typeof View> & {
+    title?: string
+}
 
-export function Screen({style, ...props}: ScreenProps) {
+export function Screen({style, title='Title', ...props}: ScreenProps) {
     const insets = useSafeAreaInsets()
+    const navigation = useNavigation()
 
+    useEffect(() => {
+        navigation.setOptions({
+            title: title
+        })
+    }, []);
     return (
         <View style={styles.container} {...props}>
             <View style={[styles.screen,{paddingTop: insets.top, paddingBottom: insets.bottom}, style]} {...props}>

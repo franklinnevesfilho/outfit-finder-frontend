@@ -1,9 +1,8 @@
 import {Href} from "expo-router";
 import {IconName, IconTypes} from "@/components/themedComponents/Icon";
 
-export type Tab = {
+export type Drawer = {
     path: Href<string | object>;
-    name?: string;
     title: string;
     activeIconType?: IconTypes;
     activeIcon?: IconName;

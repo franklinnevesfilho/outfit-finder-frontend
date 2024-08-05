@@ -1,11 +1,10 @@
 import React from 'react';
-import {Screen, Button, IntroHeader, View, Text} from '@/components'
+import {Screen, Button, IntroHeader, View} from '@/components'
 import {useRouter} from "expo-router";
 import {StyleSheet} from "react-native";
 import TextSizes from "@/utils/constants/TextSizes";
 import ThemedInput from "@/components/themedComponents/ThemedInput";
-import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {useThemeColor} from "@/utils/mobile/hooks/useThemeColor";
+import {useThemeColor} from "@/utils/hooks/mobile/useThemeColor";
 import {useAuth} from "@/app/_layout";
 
 export default function Login() {

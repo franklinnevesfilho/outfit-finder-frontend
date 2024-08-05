@@ -1,6 +1,6 @@
 import {Text as DefaultText, TextProps} from 'react-native';
 import { Theme } from '@/utils/types/Theme';
-import { useThemeColor } from '@/utils/mobile/hooks/useThemeColor';
+import { useThemeColor } from '@/utils/hooks/mobile/useThemeColor';
 import Fonts from '@/utils/constants/Fonts';
 import TextSizes from "@/utils/constants/TextSizes";
 
