@@ -6,39 +6,12 @@ import { useColorScheme } from '@/utils/mobile/hooks/useColorScheme';
 import { useClientOnlyValue } from '@/utils/mobile/hooks/useClientOnlyValue';
 import {useAuth} from "@/app/_layout";
 import {TabBar} from "@/components/navigation/TabBar";
-import {Tab} from "@/utils/types/Tab";
 
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const {token} = useAuth();
   const router = useRouter();
-
-  const tabs: Tab[] = [
-      {
-          name: 'marketplace',
-          title: 'Store',
-          icon: 'shopping-cart',
-      },
-      {
-            name: 'gallery',
-            title: 'Gallery',
-            icon: 'image',
-      },
-      {
-          name: 'index',
-          title: 'Home',
-          icon: 'home',
-      },
-      {
-          name: 'closet',
-          title: 'Wardrobe',
-      },
-      {
-          name: 'settings',
-          title: 'Profile',
-      }
-  ];
 
   const onAuth = React.useCallback(async () => {
     token().then(token => {
@@ -52,7 +25,7 @@ export default function TabLayout() {
   }, [])
 
     React.useEffect(() => {
-        onAuth().then(r => console.log('Auth check complete'));
+        onAuth().then(() => console.log('Auth check complete'));
     },[])
 
   return (
@@ -61,7 +34,7 @@ export default function TabLayout() {
           tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
           headerShown: useClientOnlyValue(false, true),
       }}
-      tabBar={(props) => <TabBar tabs={tabs}  {...props}/>}
+      tabBar={() => <TabBar />}
     />
   );
 }

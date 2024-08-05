@@ -54,7 +54,7 @@ const ButtonTitle = ({title, style, color}:ButtonTitleProps) => (
     ): null
 )
 
-interface ThemedButtonProps extends ThemeButtonProps{
+export interface ThemedButtonProps extends ThemeButtonProps{
     feedback?: Feedback,
     textStyle?: React.ComponentProps<typeof Text>['style'],
     titleTheme?: Theme,

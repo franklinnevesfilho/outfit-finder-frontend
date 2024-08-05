@@ -1,8 +1,10 @@
 import {IconName} from "./IconName";
+import {Href} from "expo-router";
 
 export type Tab = {
-    name: string;
+    name: Href<string | object>;
     title: string;
-    icon?: IconName;
+    activeIcon?: IconName;
+    inactiveIcon?: IconName;
     options?: any;
 }
