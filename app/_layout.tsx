@@ -1,14 +1,16 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import {Stack, useRouter} from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import {useCallback, useEffect} from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/utils/mobile/hooks/useColorScheme';
 import {useFonts} from "@/utils/hooks/useFonts";
 import {AuthProvider} from "@/utils/context/authProvider";
+import {useAuth} from "@/utils/hooks";
 // Catch any errors thrown by the Layout component.
 export { ErrorBoundary } from 'expo-router';
+export {useAuth} from "@/utils/hooks";
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -19,7 +21,8 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts()
+    const colorScheme = useColorScheme();
+    const [loaded, error] = useFonts()
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -36,33 +39,54 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+      <AuthProvider>
+          <ThemeProvider value={colorScheme == 'dark' ? DarkTheme : DefaultTheme}>
+              <RootLayoutNav />
+          </ThemeProvider>
+      </AuthProvider>
+  )
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+    const router = useRouter();
+    const {token} = useAuth()
+
+    const onAuth = useCallback(async () => {
+        token().then(token => {
+            if (token) {
+                console.log('Token:', token);
+                router.navigate('/(tabs)');
+            } else {
+                console.log('No token found');
+                router.navigate('/');
+            }
+        })
+    }, [token]);
+
+
+    useEffect(() => {
+        onAuth().then(r => console.log('Auth check complete'));
+    }, [onAuth]);
+
 
   return (
-      <AuthProvider>
-          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-              <Stack
-                    initialRouteName="index"
-                    screenOptions={{
-                        headerShown: false,
-                    }}
-              >
-                  <Stack.Screen
-                      name={'index'}
-                      options={{
-                          title: 'Welcome Screen',
-                      }}
-                  />
-                  <Stack.Screen name="(tabs)"
-                                options={{
-                                    animation: 'slide_from_right'
-                                }} />
-              </Stack>
-          </ThemeProvider>
-      </AuthProvider>
+      <Stack
+          initialRouteName="index"
+          screenOptions={{
+              headerShown: false,
+          }}
+      >
+          <Stack.Screen
+              name={'index'}
+              options={{
+                  title: 'Welcome Screen',
+              }}
+          />
+          <Stack.Screen name="(tabs)"
+                        options={{
+                            animation: 'slide_from_right'
+          }} />
+      </Stack>
   );
 }

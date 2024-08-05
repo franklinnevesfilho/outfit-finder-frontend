@@ -4,32 +4,27 @@ import {useStorage} from "@/utils/hooks/useStorage";
 export const AuthContext = createContext<{
     signIn: (email: string, password: string) => Promise<void>;
     signOut: () => Promise<void>;
-    jwtToken: () => Promise<string | null>;
-    isAuthenticated: () => Promise<boolean>;
+    token: () => Promise<string | null>;
 }>({
     signIn: async (email: string, password: string) => {},
     signOut: async () => {},
-    jwtToken: async () => null,
-    isAuthenticated: async () => true,
+    token: async () => null,
 });
 
 export function AuthProvider({ children }: PropsWithChildren) {
-    const [[isLoading, authToken], setState] = useStorage('auth');
+    const [[isLoading, authToken], setToken] = useStorage('auth');
 
     return (
         <AuthContext.Provider
             value={{
                 signIn: async (email: string, password: string) => {
-                    setState('Authenticated');
+                    setToken('AuthToken');
                 },
                 signOut: async () => {
-                    setState(null);
+                    setToken(null);
                 },
-                jwtToken: async () => {
+                token: async () => {
                     return authToken;
-                },
-                isAuthenticated: async () => {
-                    return !!authToken;
                 },
             }}
         >

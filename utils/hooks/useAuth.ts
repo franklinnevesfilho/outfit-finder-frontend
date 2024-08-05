@@ -6,4 +6,6 @@ export function useAuth(){
     if(!value){
         throw new Error('useAuth must be wrapped in a <AuthProvider/>');
     }
+
+    return value;
 }

@@ -6,8 +6,10 @@ import TextSizes from "@/utils/constants/TextSizes";
 import ThemedInput from "@/components/themedComponents/ThemedInput";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {useThemeColor} from "@/utils/mobile/hooks/useThemeColor";
+import {useAuth} from "@/app/_layout";
 
 export default function Login() {
+    const {signIn} = useAuth()
     const router = useRouter()
     const borderColor = useThemeColor({}, 'border')
 
@@ -24,7 +26,9 @@ export default function Login() {
                                 fontSize: TextSizes['L']
                             }}
                             onPress={()=>{
-                                router.replace('/(tabs)')
+                                signIn('email', 'password').then(()=>{
+                                    router.navigate('/(tabs)')
+                                })
                             }}
                             style={styles.loginBtn} title={'Login'} />
                     </View>
